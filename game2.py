@@ -11,7 +11,7 @@ class Hero:
   #Methods
   def attack(self):
     self.target.get_damage(self.damage)
-    print(f'you have attacked the monster, the monster has: {self.target.health} HP')
+    print(f'\nYou have attacked the monster, the monster has: {self.target.health} HP')
     #Verifies if the target is still alive or if it have enough energy to attack
     if self.target.health > 0:
       if self.target.energy >= 20:
@@ -48,7 +48,7 @@ class Monster:
   def autoAttack(self, target):
     target.health -= self.auto_attack * (self.energy/100)
     self.energy -= 20        
-    print(f'The Monster has attacked you in response, now you have: {target.health} HP')  
+    print(f'\nThe Monster has attacked you in response, now you have: {target.health} HP')  
 
   def move(self, speed):
     print('The Monster has moved')
@@ -79,15 +79,15 @@ class Shark(Monster):
 #Creating a Scorpion Monster class
 class Scorpion(Monster):
   #Dunder methods
-  def __init__(self, auto_attack, health, energy):
-    super().__init__(auto_attack, health, energy)
-    self.poison_damage = auto_attack
+  def __init__(self, poison_damage, health, energy):
+    super().__init__(poison_damage, health, energy)
+    self.poison_damage = poison_damage
 
   #Methods
   def autoAttack(self, target):
-    print(f'The Scorpion has attacked in response \n It has deal: {self.poison_damage} of poison damage')
-    target.health -= self.poison_damage
-    print(f'Now you have: {target.health} HP')
+    print(f'\nThe Scorpion has poisoned you back \nIt has deal: {self.auto_attack} of poison damage')
+    target.health -= self.auto_attack
+    print(f'\nNow you have: {target.health} HP')
 
 #Creating a monsters objects
 shark = Shark(120, 30, 100, 100)
@@ -99,6 +99,8 @@ hero = Hero(damage = 50)
 
 #Creating a battle
 def battle(hero, monster):
+  os.system('clear')
+  os.system('cls')
   print(monster())
   print(monster)
   hero.setTarget(monster)
@@ -106,13 +108,15 @@ def battle(hero, monster):
   while monster.health > 0:
     print(f'\nHero health: {hero.health}') 
     if hero.health <= 0:
-      print('Your HP have lowered to critic, you are diying, heal yourself and try again')
+      print('\nYour HP have lowered to critic, you are diying, heal yourself and try again')
       return
 
     monster.attributes()
-    print('\n1. Attack\n2.Defend\n3.Do nothing\n4.Escape')
-    action = input('\nWhat you gonna do?\n')
-    if action == '1':
+    print('\n1.Attack\n2.Defend\n3.Do nothing\n4.Escape')
+    action = input('\nWhat you gonna do?\n\n')
+    os.system('clear')
+    os.system('cls')
+    if action == '1':      
       hero.attack()
     if action == '2':
       print('\nThe monster has attack but has no effect on you') 
