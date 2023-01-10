@@ -21,6 +21,9 @@ class Hero:
 
   def setTarget(self, target):
     self.target = target
+  
+  def heal(self, amount):
+    self.health += amount
     
 
 #Class Monster
@@ -29,11 +32,12 @@ class Monster:
   # auto_attack = 15
   # health = 100
   # energy = 100
-  def __init__(self, auto_attack, health, energy):
+  def __init__(self, auto_attack, health, energy, **kwargs):
     self.auto_attack = auto_attack
     self.health = health
     self.energy = energy
-  
+    super().__init__(**kwargs)
+
   #Dunder Methods
   def __call__(self):
     return '\nThe Monster has been summoned'
@@ -59,15 +63,22 @@ class Monster:
     print(f'Monster health: {self.health}')
     print(f'Monster energy: {self.energy}')
 
+#Creating class Fish
+class Fish:
+  def __init__(self, speed, has_scales):
+    self.speed = speed
+    self.has_scales =  has_scales
+    super().__init__()
 
 #Creating Shark lass with ineherence of the Monster class
-class Shark(Monster):
+class Shark(Monster, Fish):
   #Attributes
   #speed = 100
 
-  def __init__(self, speed, auto_attack, health, energy):
-    super().__init__(auto_attack, health, energy)
-    self.speed = speed
+  def __init__(self, bite_strength, health, energy, speed, has_scales):
+    self.auto_attack = bite_strength
+    super().__init__(auto_attack = bite_strength, health = health, energy = energy, speed = speed, has_scales =  has_scales)
+     
   #Methods
   def bite(self, target):
     target.health -= 35
@@ -90,7 +101,13 @@ class Scorpion(Monster):
     print(f'\nNow you have: {target.health} HP')
 
 #Creating a monsters objects
-shark = Shark(120, 30, 100, 100)
+shark = Shark(
+   bite_strength = 30,
+   health = 120,
+   energy = 100,
+   speed =  30, 
+   has_scales = False)
+
 monster = Monster(15, 100, 100)
 scorpion = Scorpion(25, 130, 100)
 
@@ -119,7 +136,8 @@ def battle(hero, monster):
     if action == '1':      
       hero.attack()
     if action == '2':
-      print('\nThe monster has attack but has no effect on you') 
+      print('\nThe monster has attack but has no effect on you\nYou have healed 2 HP') 
+      hero.heal(2)
     if action == '3':
       monster.autoAttack(hero)
     if action == '4':
@@ -131,4 +149,4 @@ def battle(hero, monster):
 
   print('\n\nThe battle has ended\n\n')    
 
-battle(hero, scorpion)
+battle(hero, shark)
