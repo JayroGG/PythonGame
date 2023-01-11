@@ -49,10 +49,13 @@ class Monster:
   def get_damage(self, amount):
     self.health -= amount
 
-  def autoAttack(self, target):
-    target.health -= self.auto_attack * (self.energy/100)
-    self.energy -= 20        
-    print(f'\nThe Monster has attacked you in response, now you have: {target.health} HP')  
+  def autoAttack(self, target):    
+    if self.energy >= 20:
+      target.health -= self.auto_attack * self.energy/100
+      self.energy -= 20        
+      print(f'\nThe Monster has attacked you in response, now you have: {target.health} HP')
+    else:
+      self.energy += 10  
 
   def move(self, speed):
     print('The Monster has moved')
@@ -65,10 +68,10 @@ class Monster:
 
 #Creating class Fish
 class Fish:
-  def __init__(self, speed, has_scales):
+  def __init__(self, speed, has_scales, **kwargs):
     self.speed = speed
     self.has_scales =  has_scales
-    super().__init__()
+    super().__init__(**kwargs)
 
 #Creating Shark lass with ineherence of the Monster class
 class Shark(Monster, Fish):
@@ -150,3 +153,4 @@ def battle(hero, monster):
   print('\n\nThe battle has ended\n\n')    
 
 battle(hero, shark)
+# print(shark.speed)
